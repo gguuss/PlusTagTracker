@@ -1,0 +1,114 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DEMO: A Google+ Tag Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Just a demo I created for showing how to use content from Google+ searches.">
+    <meta name="author" content="Gus Class">
+
+    <!-- Le styles -->
+    <link href="./css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+
+    <link href="./css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery / Google utils -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="jquery.base64.min.js"></script>
+
+    <!-- Bootstrap animations -->
+    <script type="text/javascript" src="./js/bootstrap.js"></script>
+
+    <!--Load the AJAX API / charts-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">    
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+    </script>
+
+    <!-- Scripts specific to this app -->
+    <script src="./js/chart.js"></script>
+    <script src="./js/gplusapi.js"></script>
+    <script src="./js/ui.js"></script>
+    <script src="./js/utility.js"></script>
+    <script src="./js/tagtracker.js"></script>
+
+  </head>
+
+<body>
+  <p>
+  <div style="margin: 0 auto;width:85%;">
+    <!-- Place this tag where you want the +1 button to render. -->
+  <div class="g-plusone"></div>
+  
+  <br/>
+  <strong> Instructions:</strong> 
+  <ul>
+    <li>Enter a comma separated list of tags to search into the  search field.</li>
+    <li>Click the Search button.</li>
+    <li>Results will be graphed below the input field.</li>
+  </ul>
+  <hr/>
+  <div class="well">
+    <label>Enter your search:</label>
+    <input placeholder="search" type="text" id="thetag" />
+    <button class="btn btn-primary" onClick="queryTags()">Search</button>
+  </div>
+    
+  <div class="accordion" id="accordion2">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="  
+            #accordion2" href="#collapseOne">
+          Experimental options
+        </a>
+        <div id="collapseOne" class="accordion-body collapse"> 
+          <table class="table table-striped">
+          <tr>
+          <td><nobr>Curve lines:</nobr></td><td align="left" width="100%"><input type="checkbox" onClick="toggleLineType()" /></td></tr>
+          <tr>
+            <td><nobr>Hours of data:</nobr></td>
+            <td align="left" width="100%"><input id="thehours" value="4" style="width:50px" type=text size=2 maxlength=2 onchange="updateHoursAgo()" /></td>
+          </tr>
+          <tr>
+            <td><nobr>Use sample strategy:</nobr></td>
+            <td align="left" width="100%"><input type="checkbox" onClick="toggleStrategy()" /></td>
+          </tr>
+          <tr>
+            <td><nobr>Number of samples:</nobr></td>
+            <td align="left" width="100%"><input type=text value="50" id="samplesLimit" maxlength=3 style="width:50px" onChange="updateSampleLimit()" /></td>
+          </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="progressbarcontainer" class="progress progress-striped active" style="margin: 0 auto;width:85%; display:none;">
+    <div id="theProgressBar" class="bar" style="width: 0%;"></div>
+  </div>
+
+  <div id="visualization">
+  </div>
+  </body>
+
+  <!-- Place this tag after the last +1 button tag. -->
+  <script type="text/javascript">
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+
+
+  </script>
+</html>
