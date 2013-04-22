@@ -1,68 +1,42 @@
 /* gplusapi.js - wrappers for API calls to Google+ */
 
-// performXHR - used to trigger the XMLHttpRequest
-  function performXHR(URL, postDate, query, i, queryCount, nextPageToken){
-    if (debug > 1){
-      console.log("xhr_call");
-      console.log(postDate);
-    }
-    var objReturn = "";      
-    var request = new XMLHttpRequest();
 
-    request["postdate"] = postDate;
-    request["query"] = query;
-    request["i"] = i;
-    request["querycount"] = queryCount;
-    request["nextpagetoken"] = nextPageToken;
-
-    request.open('GET', URL, true);
-    request.send(); // because of "false" above, will block until the request is done 
-                    // and status is available. Not recommended, however it works for simple cases.
-
-    request.onreadystatechange = function(){ 
-      if (request.readyState == 4) {
-        var postDate = request["postdate"];
-        var query = request["query"];
-        var i = request["i"];
-        var queryCount = request["querycount"]
-        var nextPageToken = request["nextpagetoken"];
-        if (debug > 2){
-          console.log("handled");
-          console.log(postDate);
-          console.log(query);
-          console.log(i);
-          console.log(queryCount);
-          console.log(nextPageToken);
-          console.log("end handled");
+  /*
+   * performSearch
+   * 
+   * Sets up the search using the JS client and searches
+   */
+  function performSearch(searchPhrase){
+    // Set parameters for the query
+    gapi.client.plus.activities.search( 
+        { 
+          'query' : searchPhrase, 
+          'pageToken' : nextPageToken, 
+          'fields' : 'nextPageToken,items/published',
+          'orderBy' : 'recent',
+          'maxResults' : 20
         }
-
-        var activities = JSON.parse(request.responseText).items;
-        nextPageToken = JSON.parse(request.responseText).nextPageToken;
-
-        if (debug > 2){
-          for (value in activities){
-            console.log(value);
+      ).execute(function(activities){
+          if (activities != undefined && activities.items != undefined){
+            for (activity in activities.items){
+              postDate.push((now - Date.parse(activities.items[activity].published)) / 60000);
+            }
+            processActivities(activities);
+          }else{
+            searchHelper();
           }
-        }
-
-        for (activity in activities){        
-          postDate.push((now - Date.parse(activities[activity].published)) / 60000);
-        }
-
-        return handleActivities(activities, postDate, query, i, queryCount, nextPageToken);
-      }else{
-        //handleRequestIssue(request);
-      }
-    };
-    //return handleActivities(objReturn, postDate, query, i);
+        });
   }
 
-// handleActivities - Parses and stores activities from the XMLHttpRequest
-  function handleActivities(activities, postDate, query, i, queryCount, nextPageToken){
-
-    console.log("handle : " + nextPageToken);
-    console.log("handle : " + queryCount);
-    console.log("handle : " + postDate);
+  /* 
+   * handleActivities 
+   * 
+   * Parses and stores activities from the query
+   */
+  function processActivities(activities){
+    if (activities != undefined && activities.etag != undefined){
+      nextPageToken = activities.nextPageToken.replace(/"/g,'');
+    }
 
     if (  
       (queryCount < maxQueryCount) 
@@ -75,44 +49,49 @@
         (strategy == "sample" && (postDate.length < sampleLimit))
       )
     ){
-      queryCount++;
-      progressTracking[i] = progressTracking[i] - 1;
-      updateProgress();
       // Throttle because limit of 10 QPS
-      if (debug > 1){console.log("next query: " + queryCount);}
-
-      setTimeout(searchForActivities(query, postDate, i, queryCount, nextPageToken), 100);
+      setTimeout(searchForActivities(), 100);
     }else{
-      if (debug > 1){
-        console.log("posting: " + i);
-      }
-      postDates[i] = postDate;
-      progressTracking[i] = 0;
-      updateProgress();
-      //bucketDatesForChart(postDates);
+      // we're done
+      postDates.push(postDate);
+      i++;
+      searchHelper();
     }
+
+    queryCount++;
+    progressTracking[i] = progressTracking[i] - 1;
+    updateProgress();
   }
 
-  function searchForActivities(searchPhrase, postDate, i, queryCount, nextPageToken){
-    if (debug){
-      console.log("search : " + nextPageToken);
-      console.log("search : " + queryCount);
+  /*
+   * searchForActivities
+   * 
+   * Given a query counts posts containing the phrase
+   */
+  function searchForActivities(){
+    // Only load GAPI once and clean up the search
+    if (gapi.client.plus == undefined){
+      gapi.client.load('plus','v1', function(){
+
+        // Set API Key / Client ID
+        //gapi.auth.authorize( { client_id: clientId} );
+        gapi.client.setApiKey( key );
+
+        if (debug){
+          console.log("token : " + nextPageToken);
+          console.log("count : " + queryCount);
+        }
+
+        if (debug > 0){
+          console.log(searchPhrase);
+        }
+
+        searchPhrase = searchPhrase.replace("#","%23");
+        searchPhrase = trim(searchPhrase);
+
+        performSearch(searchPhrase);
+      });
+    }else{
+      performSearch(searchPhrase);
     }
-
-    var activities = "";
-
-    if (debug > 0){
-      console.log(searchPhrase);
-    }
-
-    searchPhrase = searchPhrase.replace("#","%23");
-    searchPhrase = trim(searchPhrase);
-
-
-    // Set parameters for the query
-    var URL        = "https://www.googleapis.com/plus/v1/activities?query=" + searchPhrase 
-      + "&key=" + key 
-      + "&orderBy=recent&pageToken="+nextPageToken;
-
-    performXHR(URL, postDate, searchPhrase, i, queryCount, nextPageToken);
   }

@@ -23,14 +23,7 @@
 
         document.getElementById("theProgressBar").style.width = percent + "%";
 
-        if (debug > 0){
-          console.log(progressBar);
-        }
       }else{
-        if (debug > 1){
-          console.log("done, rendering");
-          document.getElementById("theProgressBar").style.width = 100 + "%";
-        }
         renderContent();
       }
     }

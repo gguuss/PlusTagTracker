@@ -7,8 +7,10 @@
       splitTime    = timeAgoLimit / buckets;
     }
 
-    for (var i=0; i<postDates.length; i++){
-      bucketDatesForChart(postDates[i], hashTags[i]);
+    for (var index=0; index<postDates.length; index++){
+      if (postDates[index] != undefined){
+        bucketDatesForChart(postDates[index], hashTags[index]);
+      }
     }
 
     if (debug > 1){
@@ -31,7 +33,7 @@
     }
 
     var postCounts = new Array();
-    for (var i=0; i <= buckets; i++){
+    for (var index=0; index <= buckets; index++){
       postCounts.push(0);
     }
 
@@ -77,16 +79,16 @@
 
     // Calculate the largest number of hits for this search
     var highValue  = 0;
-    for (var i=0; i<series.length; i++){
-      var tempHigh = findMaxCount(series[i]);
+    for (var index=0; index<series.length; index++){
+      var tempHigh = findMaxCount(series[index]);
       if (tempHigh > highValue){
         highValue = tempHigh;
       }
     }
 
     // calculate the x-axis labels
-    for (var i=0; i < buckets; i++){
-      var millisSplit = (timeAgoLimit - (splitTime * (i+1))) * 60000;
+    for (var index=0; index < buckets; index++){
+      var millisSplit = (timeAgoLimit - (splitTime * (index+1))) * 60000;
       keySeries.push(getChartDateTime(millisSplit));
     }
 

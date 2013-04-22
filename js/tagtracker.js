@@ -4,7 +4,7 @@
 
   // Yo dog, I heard you like dumps of logs... 
   // 0 ... 3 for messages, 0 is none, 3 is lots
-  var debug = 0;
+  var debug = 3;
 
   // Strategies:
   // Note:  These strategies will set the minimum # of samples/time to get samples for
@@ -47,6 +47,14 @@
   var progressBar;
   var calculating;
 
+  // Globals used in child scripts (gplusapi.js)
+  // TODO: class Use proper module pattern and encapsulate
+  var i;
+  var queryCount;
+  var nextPageToken;
+  var postDate;
+  var searchPhrase;
+
 // initialize - sets up all the variables that are used for getting data to chart
   function initialize(){
     document.getElementById("theProgressBar").style.width = "0%";
@@ -66,11 +74,30 @@
 
     progressTracking = new Array();
   }
+  function searchHelper(){
+    if (i < hashTags.length){
+      searchPhrase = hashTags[i];
 
-// queryTags - performs queries for all of the hashtags
+      postDate = new Array();
+
+      if (debug > 0){
+        console.log(hashTags[i]);
+      }
+
+      // we'll decrement to roughly get an estimation of time remaining
+      progressTracking[i] = maxQueryCount;
+      queryCount = 0;
+      // DO IT!
+
+      searchForActivities();
+    }
+  }
+
+  // queryTags - performs queries for all of the hashtags
   function queryTags(){
     if (calculating){return;}
     calculating = true;
+
     if (debug > 0){
       console.log("queryTags");
     }
@@ -83,20 +110,11 @@
 
     console.log(hashTags);
 
+    i=0;
     // initialize our timeframe and arrays of post dates
     now = Date.parse(Date());
     postDates = new Array();
-
-    for (var i=0; i < hashTags.length; i++){
-      if (debug > 0){
-        console.log(hashTags[i]);
-      }
-
-      // we'll decrement to roughly get an estimation of time remaining
-      progressTracking[i] = maxQueryCount;
-      queryCount = 0;
-      // DO IT!
-      var postDate = new Array();
-      searchForActivities(hashTags[i], postDate, i, 0, "");
-    }
+    postDate = new Array();
+    searchHelper();
   }
+
