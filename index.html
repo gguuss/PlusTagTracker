@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <title>DEMO: A Google+ Tag Tracker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Just a demo I created for showing how to use content from Google+ searches.">
+    <meta name="description" content="Just a demo for showing how to use content from Google+ searches.">
     <meta name="author" content="Gus Class">
 
     <!-- Le styles -->
@@ -54,7 +54,8 @@
   <br/>
   <strong> Instructions:</strong> 
   <ul>
-    <li>Enter a comma separated list of tags to search into the  search field.</li>
+    <li>Enter a comma separated list of tags to search into the  search field.
+    </li>
     <li>Click the Search button.</li>
     <li>Results will be graphed below the input field.</li>
   </ul>
@@ -75,25 +76,38 @@
         <div id="collapseOne" class="accordion-body collapse"> 
           <table class="table table-striped">
           <tr>
-          <td><nobr>Curve lines:</nobr></td><td align="left" width="100%"><input type="checkbox" onClick="toggleLineType()" /></td></tr>
+          <td><nobr>Curve lines:</nobr></td>
+          <td align="left" width="100%">
+            <input type="checkbox" onClick="toggleLineType()" />
+          </td></tr>
           <tr>
             <td><nobr>Hours of data:</nobr></td>
-            <td align="left" width="100%"><input id="thehours" value="4" style="width:50px" type=text size=2 maxlength=2 onchange="updateHoursAgo()" /></td>
+            <td align="left" width="100%">
+              <input id="thehours" value="4" style="width:50px" 
+                  type=text size=2 maxlength=2 onchange="updateHoursAgo()" />
+            </td>
           </tr>
           <tr>
             <td><nobr>Use sample strategy:</nobr></td>
-            <td align="left" width="100%"><input type="checkbox" onClick="toggleStrategy()" /></td>
+            <td align="left" width="100%">
+              <input type="checkbox" onClick="toggleStrategy()" />
+            </td>
           </tr>
           <tr>
             <td><nobr>Number of samples:</nobr></td>
-            <td align="left" width="100%"><input type=text value="50" id="samplesLimit" maxlength=3 style="width:50px" onChange="updateSampleLimit()" /></td>
+            <td align="left" width="100%">
+              <input type=text value="50" id="samplesLimit" maxlength=3 
+                  style="width:50px" onChange="updateSampleLimit()" />
+            </td>
           </tr>
           </table>
         </div>
       </div>
     </div>
   </div>
-  <div id="progressbarcontainer" class="progress progress-striped active" style="margin: 0 auto;width:85%; display:none;">
+  <div id="progressbarcontainer" 
+      class="progress progress-striped active" 
+      style="margin: 0 auto;width:85%; display:none;">
     <div id="theProgressBar" class="bar" style="width: 0%;"></div>
   </div>
 
