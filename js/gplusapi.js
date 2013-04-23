@@ -1,11 +1,13 @@
-/* gplusapi.js - wrappers for API calls to Google+ */
+  /* gplusapi.js - wrappers for API calls to Google+ */
 
 
-  /*
-   * performSearch
-   * 
-   * Sets up the search using the JS client and searches
-   */
+  /**
+    * performSearch
+    * Sets up the search using the JS client and searches
+    * 
+    * @param searchPhrase
+    *   The url-escaped search term.
+    */
   function performSearch(searchPhrase){
     // Set parameters for the query
     gapi.client.plus.activities.search( 
@@ -28,11 +30,13 @@
         });
   }
 
-  /* 
-   * handleActivities 
-   * 
-   * Parses and stores activities from the query
-   */
+  /** 
+    * handleActivities 
+    * Parses and stores activities from the query
+    *
+    * @param activities
+    *    An activities list returned from an API call to activities.list.
+    */
   function processActivities(activities){
     if (activities != undefined && activities.etag != undefined){
       nextPageToken = activities.nextPageToken.replace(/"/g,'');
@@ -63,11 +67,11 @@
     updateProgress();
   }
 
-  /*
-   * searchForActivities
-   * 
-   * Given a query counts posts containing the phrase
-   */
+  /**
+    * searchForActivities
+    * 
+    * Given a query counts posts containing the phrase
+    */
   function searchForActivities(){
     // Only load GAPI once and clean up the search
     if (gapi.client.plus == undefined){

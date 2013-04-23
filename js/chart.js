@@ -1,6 +1,7 @@
-/* chart.js - various functions for formatting data for the chart */
-
-// renderContent - prepares the data for the chart and renders it
+  /* chart.js - various functions for formatting data for the chart */
+  /**
+    * renderContent - prepares the data for the chart and renders it
+    */
   function renderContent(){
     if (strategy == "sample"){
       timeAgoLimit = findOldestEntry(postDates);
@@ -113,13 +114,13 @@
     var data = google.visualization.arrayToDataTable(dataSet);
 
     // Create and draw the visualization.
-    new google.visualization.LineChart(document.getElementById('visualization')).
-      draw(data, {
+    new google.visualization.LineChart(document.getElementById('visualization')
+        ).draw(data, {
                   curveType: theCurveType,
                   width: 650, height: 300,
                   vAxis: {maxValue: highValue}
                  }
-          );
+            );
       // end draw
     // end new
   }

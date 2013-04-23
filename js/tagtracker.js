@@ -1,13 +1,19 @@
-/* tagtracker.js - core app functionality and variables */
+  /* tagtracker.js - core app functionality and variables */
 
+  // ====   SETUP   ====
+  // Create a project from https://code.google.com/apis/console
+  // Add the Google+ service
+  // Use the API key here
   var key = "YOUR_SIMPLE_KEY";
+  // ==== END SETUP ====
+
 
   // 0 ... 3 for messages, 0 is none, 3 is lots
-  var debug = 3;
+  var debug = 1;
 
   // Strategies:
-  // Note:  These strategies will set the minimum # of samples/time to get samples for
-  // Chronological ("chron"): 
+  // Note:  These strategies will set the minimum # of samples/time to get 
+  //     samples for Chronological ("chron"): 
   //     Try and search for activities until a certain date threshold is reached
   //     Hours ago is usd to calculate the date threshold
   // Sample ("sample"):
