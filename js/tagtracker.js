@@ -2,7 +2,6 @@
 
   var key = "YOUR_SIMPLE_KEY";
 
-  // Yo dog, I heard you like dumps of logs... 
   // 0 ... 3 for messages, 0 is none, 3 is lots
   var debug = 3;
 
