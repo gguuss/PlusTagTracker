@@ -4,7 +4,7 @@
     * updateProgress 
     * updates the UI and determines whether the chart should be rendered.
     */
-  function updateProgress(){
+  function updateProgress(showUI){
     var countsLeft = 0;
     for (var i=0; i < progressTracking.length; i++){
       countsLeft += progressTracking[i];
@@ -24,7 +24,9 @@
         //percent = 
       }
 
-      document.getElementById("theProgressBar").style.width = percent + "%";
+      if (showUI){
+        document.getElementById("theProgressBar").style.width = percent + "%";
+      }
 
     }else{
       renderContent();

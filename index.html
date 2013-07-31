@@ -31,7 +31,7 @@
 
     <!--Load the AJAX API / charts-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">    
+    <script type="text/javascript">
       // Load the Visualization API and the piechart package.
       google.load('visualization', '1.0', {'packages':['corechart']});
     </script>
@@ -50,9 +50,9 @@
   <div style="margin: 0 auto;width:85%;">
     <!-- Place this tag where you want the +1 button to render. -->
   <div class="g-plusone"></div>
-  
+
   <br/>
-  <strong> Instructions:</strong> 
+  <strong> Instructions:</strong>
   <ul>
     <li>Enter a comma separated list of tags to search into the  search field.
     </li>
@@ -63,17 +63,17 @@
   <div class="well">
     <label>Enter your search:</label>
     <input placeholder="search" type="text" id="thetag" />
-    <button class="btn btn-primary" onClick="queryTags()">Search</button>
+    <button class="btn btn-primary" onClick="queryTags(undefined, true)">Search</button>
   </div>
-    
+
   <div class="accordion" id="accordion2">
     <div class="accordion-group">
       <div class="accordion-heading">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="  
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="
             #accordion2" href="#collapseOne">
           Experimental options
         </a>
-        <div id="collapseOne" class="accordion-body collapse"> 
+        <div id="collapseOne" class="accordion-body collapse">
           <table class="table table-striped">
           <tr>
           <td><nobr>Curve lines:</nobr></td>
@@ -83,7 +83,7 @@
           <tr>
             <td><nobr>Hours of data:</nobr></td>
             <td align="left" width="100%">
-              <input id="thehours" value="4" style="width:50px" 
+              <input id="thehours" value="4" style="width:50px"
                   type=text size=2 maxlength=2 onchange="updateHoursAgo()" />
             </td>
           </tr>
@@ -96,7 +96,7 @@
           <tr>
             <td><nobr>Number of samples:</nobr></td>
             <td align="left" width="100%">
-              <input type=text value="50" id="samplesLimit" maxlength=3 
+              <input type=text value="50" id="samplesLimit" maxlength=3
                   style="width:50px" onChange="updateSampleLimit()" />
             </td>
           </tr>
@@ -105,8 +105,8 @@
       </div>
     </div>
   </div>
-  <div id="progressbarcontainer" 
-      class="progress progress-striped active" 
+  <div id="progressbarcontainer"
+      class="progress progress-striped active"
       style="margin: 0 auto;width:85%; display:none;">
     <div id="theProgressBar" class="bar" style="width: 0%;"></div>
   </div>

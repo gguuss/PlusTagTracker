@@ -4,7 +4,7 @@
   // Create a project from https://code.google.com/apis/console
   // Add the Google+ service
   // Use the API key here
-  var key = "YOUR_SIMPLE_KEY";
+  var key = "YOUR_API_KEY";
   // ==== END SETUP ====
 
 
@@ -12,8 +12,8 @@
   var debug = 1;
 
   // Strategies:
-  // Note:  These strategies will set the minimum # of samples/time to get 
-  //     samples for Chronological ("chron"): 
+  // Note:  These strategies will set the minimum # of samples/time to get
+  //     samples for Chronological ("chron"):
   //     Try and search for activities until a certain date threshold is reached
   //     Hours ago is usd to calculate the date threshold
   // Sample ("sample"):
@@ -61,10 +61,13 @@
   var searchPhrase;
 
 // initialize - sets up all the variables that are used for getting data to chart
-  function initialize(){
-    document.getElementById("theProgressBar").style.width = "0%";
-    document.getElementById("progressbarcontainer").style.display = "block";
-    visualization.innerText = "";
+  function initialize(showUI){
+    if (showUI){
+      document.getElementById("theProgressBar").style.width = "0%";
+      document.getElementById("progressbarcontainer").style.display = "block";
+      visualization.innerText = "";
+    }
+
     if (debug > 1){
       console.log("init");
     }
@@ -79,27 +82,9 @@
 
     progressTracking = new Array();
   }
-  function searchHelper(){
-    if (i < hashTags.length){
-      searchPhrase = hashTags[i];
-
-      postDate = new Array();
-
-      if (debug > 0){
-        console.log(hashTags[i]);
-      }
-
-      // we'll decrement to roughly get an estimation of time remaining
-      progressTracking[i] = maxQueryCount;
-      queryCount = 0;
-      // DO IT!
-
-      searchForActivities();
-    }
-  }
 
   // queryTags - performs queries for all of the hashtags
-  function queryTags(){
+  function queryTags(query, showUI){
     if (calculating){return;}
     calculating = true;
 
@@ -107,9 +92,12 @@
       console.log("queryTags");
     }
 
-    initialize();
+    initialize(showUI);
 
-    var queryTags = document.getElementById("thetag").value;
+    var queryTags = query;
+    if (query == undefined){
+      queryTags = document.getElementById("thetag").value;
+    }
 
     hashTags = queryTags.split(",");
 
@@ -120,6 +108,6 @@
     now = Date.parse(Date());
     postDates = new Array();
     postDate = new Array();
-    searchHelper();
+    searchHelper(showUI);
   }
 
