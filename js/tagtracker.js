@@ -60,7 +60,13 @@
   var postDate;
   var searchPhrase;
 
-// initialize - sets up all the variables that are used for getting data to chart
+ /**
+  * initialize
+  * Sets up all the variables that are used for getting data to chart.
+  *
+  * @param showUI
+  * If true, renders to the client; otherwise, runs headless.
+  */
   function initialize(showUI){
     if (showUI){
       document.getElementById("theProgressBar").style.width = "0%";
@@ -83,7 +89,15 @@
     progressTracking = new Array();
   }
 
-  // queryTags - performs queries for all of the hashtags
+ /**
+  * queryTags
+  * Performs queries for all of the hashtags.
+  *
+  * @param query
+  * The comma delimited tags to search for.
+  * @param showUI
+  * If true, renders to the client; otherwise, runs headless.
+  */
   function queryTags(query, showUI){
     if (calculating){return;}
     calculating = true;

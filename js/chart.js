@@ -25,8 +25,16 @@
     calculating = false;
   }
 
-// bucketDatesForChart - places activity counts into the posts array for
-//   graphing later
+ /**
+  * bucketDatesForChart
+  * Places activity counts into the posts array for
+  * graphing later
+  *
+  * @param postDate
+  * An array of date values for posts with the current search query.
+  * @currQuery
+  * The current phrase being searched for.
+  */
   function bucketDatesForChart(postDate, currQuery){
     if (debug > 1){
       console.log("bucketdates");
@@ -54,7 +62,7 @@
       console.log(postCounts);
     }
 
-    // first (last, actually but we'll reverse) element of series 
+    // first (last, actually but we'll reverse) element of series
     // is label
     postCounts.push(currQuery);
 
@@ -66,7 +74,10 @@
     seriesCount += 1;
   }
 
-// drawVisualization - renders the chart
+ /**
+  * drawVisualization
+  * Renders the chart.
+  */
   function drawVisualization() {
     if (debug > 0){
       console.log("draw");

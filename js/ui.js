@@ -1,9 +1,12 @@
-  /* ui.js - functionality related to UI */
+ /* ui.js - functionality related to UI */
 
-  /**
-    * updateProgress 
-    * updates the UI and determines whether the chart should be rendered.
-    */
+ /**
+  * updateProgress
+  * updates the UI and determines whether the chart should be rendered.
+  *
+  * @param showUI
+  * If true, renders to the client; otherwise, runs headless.
+  */
   function updateProgress(showUI){
     var countsLeft = 0;
     for (var i=0; i < progressTracking.length; i++){
@@ -21,7 +24,7 @@
 
       if (strategy == "sample"){
         // TODO: if this makes sense, should just count # samples/sampleLimit
-        //percent = 
+        //percent =
       }
 
       if (showUI){
@@ -32,10 +35,13 @@
       renderContent();
     }
   }
-  /**
-    * toggleStrategy 
-    * Changes the strategy used for collecting samples/posts/activities
-    */
+ /**
+  * toggleStrategy
+  * Changes the strategy used for collecting samples/posts/activities
+  *
+  * @param showUI
+  * If true, renders to the client; otherwise, runs headless.
+  */
   function toggleStrategy(){
     if (strategy == "chron"){
       strategy = "sample";
@@ -44,10 +50,10 @@
     }
   }
 
-  /**
-    * toggleLineType 
-    * Turns on the silly curved lines for charts.
-    */
+ /**
+  * toggleLineType
+  * Turns on the silly curved lines for charts.
+  */
   function toggleLineType(){
     if (theCurveType == "function"){
       theCurveType = "none";
@@ -56,11 +62,11 @@
     }
   }
 
-  /**
-    * updateHoursAgo 
-    * Sets the # of hours to sample data for when using the 
-    * chronological strategy
-    */
+ /**
+  * updateHoursAgo
+  * Sets the # of hours to sample data for when using the
+  * chronological strategy
+  */
   function updateHoursAgo(){
     var hours    = parseInt(document.getElementById("thehours").value);
     timeAgoLimit = hours * 60;
@@ -71,11 +77,11 @@
     }
   }
 
-  /**
-    * updateSampleLimit 
-    * Sets the # of samples to retrieve when using the 
-    * sample strategy.
-    */
+ /**
+  * updateSampleLimit
+  * Sets the # of samples to retrieve when using the
+  * sample strategy.
+  */
   function updateSampleLimit(){
     sampleLimit = parseInt(document.getElementById("samplesLimit").value);
 

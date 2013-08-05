@@ -7,6 +7,8 @@
     *
     * @param searchPhrase
     *   The url-escaped search term.
+    * @param showUI
+    * If true, renders to the client; otherwise, runs headless.
     */
   function performSearch(searchPhrase, showUI){
     // Set parameters for the query
@@ -19,17 +21,28 @@
           'maxResults' : 20
         }
       ).execute(function(activities){
-          if (activities != undefined && activities.items != undefined){
-            for (activity in activities.items){
-              postDate.push((now - Date.parse(activities.items[activity].published)) / 60000);
-            }
-            processActivities(activities, showUI);
+          if (activities.code != 200){
+            console.log("Error while fetching activities!", activities.error);
           }else{
-            searchHelper(showUI);
+            if (activities != undefined && activities.items != undefined){
+              for (activity in activities.items){
+                postDate.push((now - Date.parse(activities.items[activity].published)) / 60000);
+              }
+              processActivities(activities, showUI);
+            }else{
+              searchHelper(showUI);
+            }
           }
         });
   }
 
+ /**
+  * searchHelper
+  * Performs parts of a query.
+  *
+  * @param showUI
+  * If true, renders to the client; otherwise, runs headless.
+  */
   function searchHelper(showUI){
     if (i < hashTags.length){
       searchPhrase = hashTags[i];
@@ -54,6 +67,8 @@
     *
     * @param activities
     *    An activities list returned from an API call to activities.list.
+    * @param showUI
+    * If true, renders to the client; otherwise, runs headless.
     */
   function processActivities(activities, showUI){
     if (activities != undefined && activities.etag != undefined){
@@ -87,8 +102,10 @@
 
   /**
     * searchForActivities
-    *
     * Given a query counts posts containing the phrase
+    *
+    * @param showUI
+    * If true, renders to the client; otherwise, runs headless.
     */
   function searchForActivities(showUI){
     // Only load GAPI once and clean up the search
