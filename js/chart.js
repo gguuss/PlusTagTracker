@@ -3,26 +3,27 @@
     * renderContent - prepares the data for the chart and renders it
     */
   function renderContent(){
-    if (strategy == "sample"){
-      timeAgoLimit = findOldestEntry(postDates);
-      splitTime    = timeAgoLimit / buckets;
+    if (TagTracker.strategy == "sample"){
+      TagTracker.timeAgoLimit = findOldestEntry(TagTracker.postDates);
+      TagTracker.splitTime    = TagTracker.timeAgoLimit / TagTracker.buckets;
     }
 
-    for (var index=0; index<postDates.length; index++){
-      if (postDates[index] != undefined){
-        bucketDatesForChart(postDates[index], hashTags[index]);
+    for (var index=0; index<TagTracker.postDates.length; index++){
+      if (TagTracker.postDates[index] != undefined){
+        bucketDatesForChart(TagTracker.postDates[index],
+          TagTracker.hashTags[index]);
       }
     }
 
     if (debug > 1){
-      console.log(i);
-      console.log(postDates);
+      console.log(TagTracker.i);
+      console.log(TagTracker.postDates);
     }
 
     document.getElementById("progressbarcontainer").style.display = "none";
 
     drawVisualization();
-    calculating = false;
+    TagTracker.calculating = false;
   }
 
  /**
@@ -38,11 +39,11 @@
   function bucketDatesForChart(postDate, currQuery){
     if (debug > 1){
       console.log("bucketdates");
-      console.log("splitTime: " + splitTime);
+      console.log("splitTime: " + TagTracker.splitTime);
     }
 
     var postCounts = new Array();
-    for (var index=0; index <= buckets; index++){
+    for (var index=0; index <= TagTracker.buckets; index++){
       postCounts.push(0);
     }
 
@@ -51,7 +52,7 @@
     }
 
     for (index in postDate){
-      var bucket = Math.floor(postDate[index] / splitTime);
+      var bucket = Math.floor(postDate[index] / TagTracker.splitTime);
       console.log("bucket is " + bucket);
       if (bucket <= 10){
         postCounts[bucket] = postCounts[bucket]+1;
@@ -64,14 +65,14 @@
 
     // first (last, actually but we'll reverse) element of series
     // is label
-    postCounts.push(currQuery);
+    postCounts.push(TagTracker.currQuery);
 
     // currently ordered newest to oldest, want oldest to newest
     if (debug > 0){
       console.log("saving");
     }
-    series[seriesCount] = postCounts.reverse();
-    seriesCount += 1;
+    TagTracker.series[TagTracker.seriesCount] = postCounts.reverse();
+    TagTracker.seriesCount += 1;
   }
 
  /**
@@ -87,20 +88,22 @@
     // x-axis label, y-axis label (1), y-axis label (2)
     // series 1,     value1,           value2
     //
-    var keySeries = ["Hashtag",getChartDateTime(timeAgoLimit * 60000)];
+    var keySeries = ["Hashtag",getChartDateTime(TagTracker.timeAgoLimit
+      * 60000)];
 
     // Calculate the largest number of hits for this search
     var highValue  = 0;
-    for (var index=0; index<series.length; index++){
-      var tempHigh = findMaxCount(series[index]);
+    for (var index=0; index<TagTracker.series.length; index++){
+      var tempHigh = findMaxCount(TagTracker.series[index]);
       if (tempHigh > highValue){
         highValue = tempHigh;
       }
     }
 
     // calculate the x-axis labels
-    for (var index=0; index < buckets; index++){
-      var millisSplit = (timeAgoLimit - (splitTime * (index+1))) * 60000;
+    for (var index=0; index < TagTracker.buckets; index++){
+      var millisSplit = (TagTracker.timeAgoLimit - (TagTracker.splitTime
+        * (index+1))) * 60000;
       keySeries.push(getChartDateTime(millisSplit));
     }
 
@@ -112,8 +115,9 @@
       dataSet[index] = new Array();
 
       dataSet[index][0] = keySeries[index];
-      for (var seriesNum in series){
-        dataSet[index][parseInt(seriesNum)+1] = series[seriesNum][index];
+      for (var seriesNum in TagTracker.series){
+        dataSet[index][parseInt(seriesNum)+1] =
+          TagTracker.series[seriesNum][index];
       }
 
     }
@@ -127,7 +131,7 @@
     // Create and draw the visualization.
     new google.visualization.LineChart(document.getElementById('visualization')
         ).draw(data, {
-                  curveType: theCurveType,
+                  curveType: TagTracker.theCurveType,
                   width: 650, height: 300,
                   vAxis: {maxValue: highValue}
                  }

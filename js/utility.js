@@ -70,7 +70,7 @@
     */
     function getChartDateTime(millis){
       var days = ["Sun","Mon","Tues","Wed","Thur","Fri","Sat"];
-      var thisDate = new Date(now - millis);
+      var thisDate = new Date(TagTracker.now - millis);
 
 
       var prettyDate = days[thisDate.getDay()] + ", " + thisDate.getHours() + ":"

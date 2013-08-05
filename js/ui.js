@@ -9,8 +9,8 @@
   */
   function updateProgress(showUI){
     var countsLeft = 0;
-    for (var i=0; i < progressTracking.length; i++){
-      countsLeft += progressTracking[i];
+    for (var i=0; i < TagTracker.progressTracking.length; i++){
+      countsLeft += TagTracker.progressTracking[i];
     }
     if (countsLeft > 0){
       if (debug > 1){
@@ -19,10 +19,11 @@
 
       console.log(document.getElementById("theProgressBar"));
 
-      var percent = 100 - Math.floor((countsLeft / (maxQueryCount * hashTags.length)) * 100);
+      var percent = 100 - Math.floor((countsLeft /
+        (TagTracker.maxQueryCount * TagTracker.hashTags.length)) * 100);
       var progressBar = document.getElementById("theProgressBar");
 
-      if (strategy == "sample"){
+      if (TagTracker.strategy == "sample"){
         // TODO: if this makes sense, should just count # samples/sampleLimit
         //percent =
       }
@@ -43,10 +44,10 @@
   * If true, renders to the client; otherwise, runs headless.
   */
   function toggleStrategy(){
-    if (strategy == "chron"){
-      strategy = "sample";
+    if (TagTracker.strategy == "chron"){
+      TagTracker.strategy = "sample";
     }else{
-      theCurveType = "chron";
+      TagTracker.theCurveType = "chron";
     }
   }
 
@@ -55,10 +56,10 @@
   * Turns on the silly curved lines for charts.
   */
   function toggleLineType(){
-    if (theCurveType == "function"){
-      theCurveType = "none";
+    if (TagTracker.theCurveType == "function"){
+      TagTracker.theCurveType = "none";
     }else{
-      theCurveType = "function";
+      TagTracker.theCurveType = "function";
     }
   }
 
@@ -69,11 +70,11 @@
   */
   function updateHoursAgo(){
     var hours    = parseInt(document.getElementById("thehours").value);
-    timeAgoLimit = hours * 60;
-    splitTime    = timeAgoLimit / buckets;
+    TagTracker.timeAgoLimit = hours * 60;
+    TagTracker.splitTime    = TagTracker.timeAgoLimit / TagTracker.buckets;
     if (debug > 2){
-      console.log("timeAgoLimit now: " + timeAgoLimit);
-      console.log("splitTime now: " + splitTime);
+      console.log("timeAgoLimit now: " + TagTracker.timeAgoLimit);
+      console.log("splitTime now: " + TagTracker.splitTime);
     }
   }
 
@@ -83,6 +84,7 @@
   * sample strategy.
   */
   function updateSampleLimit(){
-    sampleLimit = parseInt(document.getElementById("samplesLimit").value);
+    TagTracker.sampleLimit =
+      parseInt(document.getElementById("samplesLimit").value);
 
   }

@@ -1,15 +1,20 @@
-  /* tagtracker.js - core app functionality and variables */
+/* tagtracker.js - core app functionality and variables */
+// ====   SETUP   ====
+// Create a project from https://code.google.com/apis/console
+// Add the Google+ service
+// Use the API key here
 
-  // ====   SETUP   ====
-  // Create a project from https://code.google.com/apis/console
-  // Add the Google+ service
-  // Use the API key here
-  var key = "YOUR SIMPLE KEY";
+// 0 ... 3 for messages, 0 is none, 3 is lots
+// TODO @class Move to conf / globals
+var debug = 0;
+var key = "YOUR API KEY";
+
+var TagTracker = (function () {
+
+  var my = {};
   // ==== END SETUP ====
 
 
-  // 0 ... 3 for messages, 0 is none, 3 is lots
-  var debug = 1;
 
   // Strategies:
   // Note:  These strategies will set the minimum # of samples/time to get
@@ -21,44 +26,44 @@
   //     # samples is specified in sampleLimit
   // Hybrid ("hybrid"):
   //     Use a combination of sample/chron?
-  var strategy = "chron";
+  my.strategy = "chron";
   //var strategy = "sample";
 
   // For data retrieval
-  var maxQueryCount = 100; // max # of queries to G+ per term
+  my.maxQueryCount = 100; // max # of queries to G+ per term
 
   // For charting, might not want these to be globals
-  var seriesCount;
-  var series;
+  my.seriesCount;
+  my.series;
 
   // If using chron strategy, time ago in minutes
-  var timeAgoLimit = 60*4;
-  var now;
+  my.timeAgoLimit = 60*4;
+  my.now;
 
   // If using sample strategy, # of samples to get
-  var sampleLimit  = 50;
+  my.sampleLimit  = 50;
 
   // Time in minutes to bucket slots
   // TODO: is this better seved as a fraction of timeAgoLimit?
-  var buckets = 10;
-  var splitTime = timeAgoLimit / buckets;
+  my.buckets = 10;
+  my.splitTime = my.timeAgoLimit / my.buckets;
 
   // application configuration
-  var theCurveType = "none"; // none or function
+  my.theCurveType = "none"; // none or function
 
-  var postDates;
-  var hashTags;
-  var progressTracking;
-  var progressBar;
-  var calculating;
+  my.postDates;
+  my.hashTags;
+  my.progressTracking;
+  my.progressBar;
+  my.calculating;
 
   // Globals used in child scripts (gplusapi.js)
   // TODO: class Use proper module pattern and encapsulate
-  var i;
-  var queryCount;
-  var nextPageToken;
-  var postDate;
-  var searchPhrase;
+  my.i;
+  my.queryCount;
+  my.nextPageToken;
+  my.postDate;
+  my.searchPhrase;
 
  /**
   * initialize
@@ -67,7 +72,7 @@
   * @param showUI
   * If true, renders to the client; otherwise, runs headless.
   */
-  function initialize(showUI){
+  my.initialize = function(showUI){
     if (showUI){
       document.getElementById("theProgressBar").style.width = "0%";
       document.getElementById("progressbarcontainer").style.display = "block";
@@ -78,15 +83,15 @@
       console.log("init");
     }
 
-    postCounts = new Array();
-    for (var i = 0; i < buckets; i++){
-      postCounts.push(0);
+    this.postCounts = new Array();
+    for (var i = 0; i < this.buckets; i++){
+      this.postCounts.push(0);
     }
 
-    series        = new Array();
-    seriesCount   = 0;
+    this.series        = new Array();
+    this.seriesCount   = 0;
 
-    progressTracking = new Array();
+    this.progressTracking = new Array();
   }
 
  /**
@@ -98,30 +103,32 @@
   * @param showUI
   * If true, renders to the client; otherwise, runs headless.
   */
-  function queryTags(query, showUI){
-    if (calculating){return;}
-    calculating = true;
+  my.queryTags = function (query, showUI){
+    if (this.calculating){return;}
+    this.calculating = true;
 
     if (debug > 0){
       console.log("queryTags");
     }
 
-    initialize(showUI);
+    this.initialize(showUI);
 
     var queryTags = query;
     if (query == undefined){
       queryTags = document.getElementById("thetag").value;
     }
 
-    hashTags = queryTags.split(",");
+    this.hashTags = queryTags.split(",");
 
-    console.log(hashTags);
+    console.log(this.hashTags);
 
-    i=0;
+    this.i=0;
     // initialize our timeframe and arrays of post dates
-    now = Date.parse(Date());
-    postDates = new Array();
-    postDate = new Array();
+    this.now = Date.parse(Date());
+    this.postDates = new Array();
+    this.postDate = new Array();
     searchHelper(showUI);
-  }
+  };
 
+  return my;
+}());
