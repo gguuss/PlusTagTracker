@@ -1,15 +1,15 @@
   /* gplusapi.js - wrappers for API calls to Google+ */
 
 
-  /**
-    * performSearch
-    * Sets up the search using the JS client and searches
-    *
-    * @param searchPhrase
-    *   The url-escaped search term.
-    * @param showUI
-    * If true, renders to the client; otherwise, runs headless.
-    */
+/**
+  * performSearch
+  * Sets up the search using the JS client and searches
+  *
+  * @param searchPhrase
+  *   The url-escaped search term.
+  * @param showUI
+  * If true, renders to the client; otherwise, runs headless.
+  */
   function performSearch(searchPhrase, showUI){
     // Set parameters for the query
     gapi.client.plus.activities.search(
@@ -21,7 +21,7 @@
           'maxResults' : 20
         }
       ).execute(function(activities){
-          if (activities.code != 200){
+          if (activities.code != undefined){
             console.log("Error while fetching activities!", activities.error);
           }else{
             if (activities != undefined && activities.items != undefined){
@@ -100,13 +100,13 @@
     updateProgress(showUI);
   }
 
-  /**
-    * searchForActivities
-    * Given a query counts posts containing the phrase
-    *
-    * @param showUI
-    * If true, renders to the client; otherwise, runs headless.
-    */
+/**
+  * searchForActivities
+  * Given a query counts posts containing the phrase
+  *
+  * @param showUI
+  * If true, renders to the client; otherwise, runs headless.
+  */
   function searchForActivities(showUI){
     // Only load GAPI once and clean up the search
     if (gapi.client.plus == undefined){

@@ -4,7 +4,7 @@
   // Create a project from https://code.google.com/apis/console
   // Add the Google+ service
   // Use the API key here
-  var key = "YOUR_API_KEY";
+  var key = "YOUR SIMPLE KEY";
   // ==== END SETUP ====
 
 
