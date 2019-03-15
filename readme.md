@@ -1,4 +1,4 @@
-**Notice** [Google+ API is shutting down on March 7th, 2019](https://developers.google.com/+/api-shutdown).
+**Notice** [Google+ API shut down on March 7th, 2019](https://developers.google.com/+/api-shutdown).
 
 # TagTracker
 Demonstrates how to use the Google+ activities API to read public data and monitor the activity stream.
